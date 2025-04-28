@@ -4,7 +4,7 @@ from typing import Optional
 
 import tcod.event
 
-from actions import Action, BumpAction, EscapeAction
+from actions import Action, BumpAction, GameExitAction
 
 
 class EventHandler(tcod.event.EventDispatch[Action]):
@@ -16,7 +16,7 @@ class EventHandler(tcod.event.EventDispatch[Action]):
 
     def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
         """Called when the termination of the program is requested."""
-        return EscapeAction()
+        return GameExitAction()
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[Action]:
         """Called when a keyboard key is pressed or repeated."""
@@ -33,6 +33,6 @@ class EventHandler(tcod.event.EventDispatch[Action]):
         elif key == tcod.event.KeySym.RIGHT:
             action = BumpAction(dx=1, dy=0)
         elif key == tcod.event.KeySym.ESCAPE:
-            action = EscapeAction()
+            action = GameExitAction()
 
         return action

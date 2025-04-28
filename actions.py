@@ -20,11 +20,6 @@ class Action:
         raise NotImplementedError()
 
 
-class EscapeAction(Action):
-    def perform(self, engine: Engine, entity: Entity) -> None:
-        raise SystemExit()
-
-
 class ActionWithDirection(Action):
     def __init__(self, dx: int, dy: int):
         super().__init__()
@@ -47,6 +42,10 @@ class BumpAction(ActionWithDirection):
         else:
             return MovementAction(self.dx, self.dy).perform(engine, entity)
 
+
+class GameExitAction(Action):
+    def perform(self, engine: Engine, entity: Entity) -> None:
+        raise SystemExit()
 
 class MeleeAction(ActionWithDirection):
     def perform(self, engine: Engine, entity: Entity) -> None:
