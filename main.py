@@ -4,8 +4,8 @@ import copy
 
 import tcod
 
-from engine import Engine
 import entity_factories
+from engine import Engine
 from input_handlers import EventHandler
 from procgen import generate_dungeon
 
