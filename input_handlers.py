@@ -4,7 +4,7 @@ from typing import Optional
 
 import tcod.event
 
-from actions import Action, BumpAction, EscapeAction, MovementAction
+from actions import Action, BumpAction, EscapeAction
 
 
 class EventHandler(tcod.event.EventDispatch[Action]):
