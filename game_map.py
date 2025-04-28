@@ -10,6 +10,7 @@ import tile_types
 if TYPE_CHECKING:
     from entity import Entity
 
+
 class GameMap:
     def __init__(self, width: int, height: int, entities: Iterable[Entity]=()):
         self.width = width
