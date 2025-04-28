@@ -43,7 +43,7 @@ def main() -> None:
         room_max_size=ROOM_SIZE_MAX,
         map_width=MAP_WIDTH,
         map_height=MAP_HEIGHT,
-        max_monsters_per_room=MONSTERS_PER_ROOM_MAX,
+        monsters_per_room=MONSTERS_PER_ROOM_MAX,
         player=player
     )
 

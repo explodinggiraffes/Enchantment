@@ -44,8 +44,7 @@ class RectangularRoom:
 
 
 def place_entities(
-    room: RectangularRoom, dungeon: GameMap, maximum_monsters: int,
-) -> None:
+    room: RectangularRoom, dungeon: GameMap, maximum_monsters: int) -> None:
     number_of_monsters = random.randint(0, maximum_monsters)
 
     for i in range(number_of_monsters):
@@ -59,9 +58,7 @@ def place_entities(
                 entity_factories.troll.spawn(dungeon, x, y)
 
 
-def tunnel_between(
-    start: Tuple[int, int], end: Tuple[int, int]
-) -> Iterator[Tuple[int, int]]:
+def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tuple[int, int]]:
     """Return an L-shaped tunnel between these two points."""
     x1, y1 = start
     x2, y2 = end
@@ -85,7 +82,7 @@ def generate_dungeon(
     room_max_size: int,
     map_width: int,
     map_height: int,
-    max_monsters_per_room: int,
+    monsters_per_room: int,
     player: Entity,
 ) -> GameMap:
     """Generate a new dungeon map."""
@@ -120,7 +117,7 @@ def generate_dungeon(
                 dungeon.tiles[x, y] = tile_types.floor
 
         # Place monsters in the new room.
-        place_entities(new_room, dungeon, max_monsters_per_room)
+        place_entities(new_room, dungeon, monsters_per_room)
 
         # Finally, append the new room to the list.
         rooms.append(new_room)
