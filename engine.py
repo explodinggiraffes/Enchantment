@@ -16,10 +16,6 @@ class Engine:
         self.player = player
         self.update_fov()
 
-    def handle_enemy_turns(self) -> None:
-        for entity in self.game_map.entities - {self.player}:
-            print(f'The {entity.name} wonders when it will get to take a real turn.')
-
     def handle_events(self, events: Iterable[Any]) -> None:
         for event in events:
             action = self.event_handler.dispatch(event)
@@ -33,6 +29,10 @@ class Engine:
 
             self.update_fov()  # Update the FOV before the players next action.
 
+    def handle_enemy_turns(self) -> None:
+        for entity in self.game_map.entities - {self.player}:
+            print(f'The {entity.name} wonders when it will get to take a real turn.')
+
     def update_fov(self) -> None:
         """Recompute the visible area based on the players point of view."""
         self.game_map.visible[:] = compute_fov(
@@ -40,6 +40,7 @@ class Engine:
             (self.player.x, self.player.y),
             radius=8,
         )
+
         # If a tile is "visible" it should be added to "explored".
         self.game_map.explored |= self.game_map.visible
 
