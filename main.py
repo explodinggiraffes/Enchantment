@@ -29,8 +29,6 @@ def main() -> None:
 
     # Create the player and an NPC.
     player = Entity(int(WINDOW_WIDTH / 2), int(WINDOW_HEIGHT / 2), "@", (255, 255, 255))
-    npc = Entity(int(WINDOW_WIDTH / 2 - 5), int(WINDOW_HEIGHT / 2), "@", (255, 255, 0))
-    entities = {npc, player}
 
     # TODO
     game_map = generate_dungeon(
@@ -45,8 +43,8 @@ def main() -> None:
     # TODO
     event_handler = EventHandler()
 
-    # TODO
-    engine = Engine(entities=entities, event_handler=event_handler, game_map=game_map, player=player)
+    # TODO: Comment + create player outside of main() if possible.
+    engine = Engine(event_handler=event_handler, game_map=game_map, player=player)
 
     # Create a window based on this console and tileset.
     # Then start the event loop, which runs until SystemExit is raised.
