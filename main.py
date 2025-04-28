@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
+import copy
+
 import tcod
 
 from engine import Engine
-from entity import Entity
+import entity_factories
 from input_handlers import EventHandler
 from procgen import generate_dungeon
 
@@ -17,6 +19,8 @@ ROOM_SIZE_MAX = 10
 ROOM_SIZE_MIN = 6
 ROOMS_MAX = 30
 
+MONSTERS_PER_ROOM_MAX=2
+
 
 def main() -> None:
     # Load the font, a 32 by 8 tile font with libtcod's old character layout.
@@ -28,7 +32,9 @@ def main() -> None:
     console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
 
     # Create the player and an NPC.
-    player = Entity(int(WINDOW_WIDTH / 2), int(WINDOW_HEIGHT / 2), "@", (255, 255, 255))
+    # Note: We can’t use player.spawn here, because spawn requires the GameMap, which isn’t created until after we
+    # create the player. <-FIXME?
+    player = copy.deepcopy(entity_factories.player)
 
     # TODO
     game_map = generate_dungeon(
@@ -37,6 +43,7 @@ def main() -> None:
         room_max_size=ROOM_SIZE_MAX,
         map_width=MAP_WIDTH,
         map_height=MAP_HEIGHT,
+        max_monsters_per_room=MONSTERS_PER_ROOM_MAX,
         player=player
     )
 
