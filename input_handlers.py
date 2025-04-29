@@ -1,10 +1,15 @@
 # pylint: skip-file
 
-from typing import Optional
+from __future__ import annotations
+
+from typing import Optional, TYPE_CHECKING
 
 import tcod.event
 
 from actions import Action, BumpAction, GameExitAction
+
+if TYPE_CHECKING:
+    from engine import Engine
 
 
 class EventHandler(tcod.event.EventDispatch[Action]):
@@ -13,6 +18,20 @@ class EventHandler(tcod.event.EventDispatch[Action]):
     "Event dispatch should be handled via a single custom method in a Protocol instead of this class.
     Note that events can and should be handled using Python's `match` statement."
     """
+    def __init__(self, engine: Engine):
+        self.engine = engine
+
+    def handle_events(self) -> None:
+        for event in tcod.event.wait():
+            action = self.dispatch(event)
+
+            if action is None:
+                continue
+
+            action.perform()
+
+            self.engine.handle_enemy_turns()
+            self.engine.update_fov()  # Update the FOV before the players next action.
 
     def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
         """Called when the termination of the program is requested."""
@@ -24,15 +43,17 @@ class EventHandler(tcod.event.EventDispatch[Action]):
 
         key = event.sym
 
+        player = self.engine.player
+
         if key == tcod.event.KeySym.UP:
-            action = BumpAction(dx=0, dy=-1)
+            action = BumpAction(player, dx=0, dy=-1)
         elif key == tcod.event.KeySym.DOWN:
-            action = BumpAction(dx=0, dy=1)
+            action = BumpAction(player, dx=0, dy=1)
         elif key == tcod.event.KeySym.LEFT:
-            action = BumpAction(dx=-1, dy=0)
+            action = BumpAction(player, dx=-1, dy=0)
         elif key == tcod.event.KeySym.RIGHT:
-            action = BumpAction(dx=1, dy=0)
+            action = BumpAction(player, dx=1, dy=0)
         elif key == tcod.event.KeySym.ESCAPE:
-            action = GameExitAction()
+            action = GameExitAction(player)
 
         return action
