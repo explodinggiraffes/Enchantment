@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import Iterable, Optional, TYPE_CHECKING
+from typing import Iterable, Iterator, Optional, TYPE_CHECKING
 
-import numpy as np  # type: ignore
 from tcod.console import Console
+import numpy as np  # type: ignore
 
+from entity import Actor
 import tile_types
 
 if TYPE_CHECKING:
@@ -28,12 +29,28 @@ class GameMap:
             (width, height), fill_value=False, order="F"
         )  # Tiles the player has seen before
 
+    @property
+    def actors(self) -> Iterator[Actor]:
+        """Iterate over the living Actors on this map."""
+        yield from (
+            entity
+            for entity in self.entities
+                if isinstance(entity, Actor) and entity.is_alive
+        )
+
+    def get_actor_at_location(self, x: int, y: int) -> Optional[Actor]:
+        """"Return the Actor at the specified location."""
+        for actor in self.actors:
+            if actor.x == x and actor.y == y:
+                return actor
+
+        return None
+
     def get_blocking_entity_at_location(
         self, location_x: int, location_y: int,
     ) -> Optional[Entity]:
         for entity in self.entities:
-            if (
-                entity.blocks_movement
+            if (entity.blocks_movement
                 and entity.x == location_x
                 and entity.y == location_y
             ):
@@ -46,8 +63,7 @@ class GameMap:
         return 0 <= x < self.width and 0 <= y < self.height
 
     def render(self, console: Console) -> None:
-        """
-        Renders the map.
+        """Renders the map.
 
         If a tile is in the "visible" array, then draw it with the "light" colors.
         If it isn't, but it's in the "explored" array, then draw it with the "dark" colors.
