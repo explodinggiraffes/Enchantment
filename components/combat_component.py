@@ -1,7 +1,7 @@
 from components.base_component import BaseComponent
 
 
-class Fightable(BaseComponent):
+class CombatComponent(BaseComponent):
     """A Component capable of being fought because it has attributes such as hit points.
     """
     def __init__(self, hp: int, defense: int, power: int):
