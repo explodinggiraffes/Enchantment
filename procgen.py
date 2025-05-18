@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-import random
 from typing import Iterator, List, Tuple, TYPE_CHECKING
+import random
 
 import tcod
 
+from game_map import GameMap
 import entity_factories
 import tile_types
-from game_map import GameMap
 
 if TYPE_CHECKING:
     from engine import Engine
