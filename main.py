@@ -30,7 +30,7 @@ def main() -> None:
     # Create the main console.
     console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
 
-    # Create the player and an NPC.
+    # Create the player.
     # Note: We can’t use player.spawn here, because spawn requires the GameMap, which isn’t created until after we
     # create the player. <-FIXME?
     player = copy.deepcopy(entity_factories.player)

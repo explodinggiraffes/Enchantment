@@ -6,7 +6,7 @@ from typing import Optional, Tuple, Type, TypeVar, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from components.ai import BaseAI
-    from components.fightable import Fightable
+    from components.combat_component import CombatComponent
     from game_map import GameMap
 
 
@@ -75,7 +75,7 @@ class Actor(Entity):
         color: Tuple[int, int, int] = (255, 255, 255),
         name: str = "<Unnamed>",
         ai_cls: Type[BaseAI],
-        fighter: Fightable
+        fighter: CombatComponent
     ):
         # TODO: Change the order of paramters?
         super().__init__(
