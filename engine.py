@@ -9,7 +9,7 @@ from tcod.map import compute_fov
 from event_handler import EventHandler
 
 if TYPE_CHECKING:
-    from entity import Entity
+    from entities import Entity
     from game_map import GameMap
 
 

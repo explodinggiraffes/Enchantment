@@ -1,6 +1,6 @@
 from components.ai import HostileEnemy
 from components.combat_component import CombatComponent
-from entity import Actor
+from entities import Actor
 
 
 player = Actor(
