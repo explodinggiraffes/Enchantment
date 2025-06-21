@@ -15,8 +15,11 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound="Entity")
 
 class Entity:
-    """
-    A generic object to represent players, enemies, items, etc.
+    """A generic object to represent players, enemies, items, etc.
+
+    Note: blocks_movement describes whether or not this Entity can be moved over or not.
+    Entities such as monsters will have blocks_movement set to True, while entities like consumable items and equipment
+    will be set to False.
     """
 
     # This GameMap is shared between all instances of Entity.
@@ -47,7 +50,7 @@ class Entity:
             gamemap.entities.add(self)
 
     def spawn(self: T, gamemap: GameMap, x: int, y: int) -> T:
-        """Spawn a copy of this instance at the given location."""
+        """Spawn a copy of this Entity at the given location."""
         clone = copy.deepcopy(self)
         clone.x = x
         clone.y = y
@@ -56,7 +59,7 @@ class Entity:
         return clone
 
     def place(self, x: int, y: int, gamemap: Optional[GameMap] = None) -> None:
-        """Place this entity at a new location. Handles moving across GameMaps."""
+        """Place this entEntityity at a new location. Handles moving across GameMaps."""
         self.x = x
         self.y = y
         if gamemap:
@@ -98,5 +101,5 @@ class Actor(Entity):
 
     @property
     def is_alive(self) -> bool:
-        """Returns True as long as this actor can perform actions."""
+        """Returns True as long as this Actor can perform actions."""
         return bool(self.ai)
