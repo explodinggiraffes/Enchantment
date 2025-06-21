@@ -48,11 +48,24 @@ WAIT_KEYS = {
 }
 
 
+# Note: As of tcod 18.0, EventDispatch is considered deprecated:
+# "Event dispatch should be handled via a single custom method in a Protocol instead of this class.
+# Note that events can and should be handled using Python's `match` statement."
+
 class EventHandler(tcod.event.EventDispatch[Action]):
+    def __init__(self, engine: Engine):
+        self.engine = engine
+
+    def handle_events(self) -> None:
+        raise NotImplementedError()
+
+    def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
+        """Called when the termination of the program is requested."""
+        return GameExitAction()
+
+
+class MainGameEventHandler(EventHandler):
     """Handles events by converting them to a game Action.
-    Note: As of tcod 18.0, EventDispatch is considered deprecated:
-    "Event dispatch should be handled via a single custom method in a Protocol instead of this class.
-    Note that events can and should be handled using Python's `match` statement."
     """
     def __init__(self, engine: Engine):
         self.engine = engine
@@ -69,24 +82,38 @@ class EventHandler(tcod.event.EventDispatch[Action]):
             self.engine.handle_enemy_turns()
             self.engine.update_fov()  # Update the FOV before the players next action.
 
-    def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
-        """Called when the termination of the program is requested."""
-        return GameExitAction()
-
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[Action]:
         """Called when a keyboard key is pressed or repeated."""
         action: Optional[Action] = None
 
         key = event.sym
-
-        player = self.engine.player
-
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
-            action = BumpAction(player, dx, dy)
+            action = BumpAction(self.engine.player, dx, dy)
         elif key in WAIT_KEYS:
-            action = WaitAction(player)
+            action = WaitAction(self.engine.player)
         elif key == tcod.event.KeySym.ESCAPE:
-            action = GameExitAction(player)
+            action = GameExitAction(self.engine.player)
 
+        return action
+
+class GameOverEventHandler(EventHandler):
+    def handle_events(self) -> None:
+        for event in tcod.event.wait():
+            action = self.dispatch(event)
+
+            if action is None:
+                continue
+
+            action.perform()
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[Action]:
+        action: Optional[Action] = None
+
+        key = event.sym
+
+        if key == tcod.event.K_ESCAPE:
+            action = GameExitAction(self.engine.player)
+
+        # No valid key was pressed
         return action
