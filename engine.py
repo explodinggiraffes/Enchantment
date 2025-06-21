@@ -10,8 +10,8 @@ from event_handlers import MainGameEventHandler
 
 if TYPE_CHECKING:
     from entities import Actor
-    from game_map import GameMap
     from event_handlers import EventHandler
+    from game_map import GameMap
 
 
 class Engine:
