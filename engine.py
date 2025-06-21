@@ -6,19 +6,20 @@ from tcod.context import Context
 from tcod.console import Console
 from tcod.map import compute_fov
 
-from event_handler import EventHandler
+from event_handler import MainGameEventHandler
 
 if TYPE_CHECKING:
-    from entities import Entity
+    from entities import Actor
     from game_map import GameMap
+    from event_handler import EventHandler
 
 
 class Engine:
     # This GameMap is shared between all instances of Engine.
     game_map: GameMap
 
-    def __init__(self, player: Entity):
-        self.event_handler: EventHandler = EventHandler(self)
+    def __init__(self, player: Actor):
+        self.event_handler: EventHandler = MainGameEventHandler(self)
         self.player = player
 
     def handle_enemy_turns(self) -> None:
@@ -39,6 +40,12 @@ class Engine:
 
     def render(self, console: Console, context: Context) -> None:
         self.game_map.render(console)
+
+        console.print(
+            x=1,
+            y=47,
+            string=f"HP: {self.player.fighter.hp}/{self.player.fighter.max_hp}",
+        )
 
         context.present(console)
         console.clear()
