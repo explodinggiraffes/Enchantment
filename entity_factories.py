@@ -18,6 +18,7 @@ orc = Actor(
     ai_cls=HostileEnemy,
     fighter=CombatComponent(hp=10, defense=0, power=3),
 )
+
 troll = Actor(
     char="T",
     color=(0, 127, 0),
