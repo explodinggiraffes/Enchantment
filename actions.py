@@ -43,7 +43,7 @@ class ActionWithDirection(Action):
 
     @property
     def dest_xy(self) -> Tuple[int, int]:
-        """Returns this actions destination."""
+        """Returns this action's destination."""
         return self.entity.x + self.dx, self.entity.y + self.dy
 
     @property
