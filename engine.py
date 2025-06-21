@@ -6,12 +6,12 @@ from tcod.context import Context
 from tcod.console import Console
 from tcod.map import compute_fov
 
-from event_handler import MainGameEventHandler
+from event_handlers import MainGameEventHandler
 
 if TYPE_CHECKING:
     from entities import Actor
     from game_map import GameMap
-    from event_handler import EventHandler
+    from event_handlers import EventHandler
 
 
 class Engine:
