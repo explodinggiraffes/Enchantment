@@ -46,9 +46,10 @@ class GameMap:
 
         return None
 
-    def get_blocking_entity_at_location(
-        self, location_x: int, location_y: int,
-    ) -> Optional[Entity]:
+    def get_blocking_entity_at_location(self, location_x: int, location_y: int,) -> Optional[Entity]:
+        """Returns a movement-blocking Entity (such as a monster) at the supplied x and y location if it exists;
+        otherwise None is returned.
+        """
         for entity in self.entities:
             if (entity.blocks_movement
                 and entity.x == location_x
@@ -59,7 +60,7 @@ class GameMap:
         return None
 
     def in_bounds(self, x: int, y: int) -> bool:
-        """Return True if x and y are inside of the bounds of this map."""
+        """Return True if x and y are inside of the bounds of this map, False if not."""
         return 0 <= x < self.width and 0 <= y < self.height
 
     def render(self, console: Console) -> None:
