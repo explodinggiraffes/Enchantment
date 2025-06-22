@@ -10,8 +10,8 @@ if TYPE_CHECKING:
     from components.combat_component import CombatComponent
     from game_map import GameMap
 
-
 T = TypeVar("T", bound="Entity")
+
 
 class Entity:
     """A generic object to represent players, enemies, items, etc.
@@ -58,7 +58,7 @@ class Entity:
         return clone
 
     def place(self, x: int, y: int, gamemap: Optional[GameMap] = None) -> None:
-        """Place this Entity at a new location. Handles moving across a game maps."""
+        """Place this Entity at specified location."""
         self.x = x
         self.y = y
         if gamemap:
@@ -68,7 +68,7 @@ class Entity:
             gamemap.entities.add(self)
 
     def move(self, dx: int, dy: int) -> None:
-        # Move the entity by a given amount
+        """ Move this Entity by the supplied amount."""
         self.x += dx
         self.y += dy
 
@@ -100,5 +100,5 @@ class Actor(Entity):
 
     @property
     def is_alive(self) -> bool:
-        """Returns True as long as this Actor can perform actions."""
+        """Returns True if this Actor is alive and can perform an action."""
         return bool(self.ai)
