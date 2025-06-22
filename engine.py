@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from tcod.context import Context
 from tcod.console import Console
+from tcod.context import Context
 from tcod.map import compute_fov
 
 from event_handlers import MainGameEventHandler
@@ -15,7 +15,10 @@ if TYPE_CHECKING:
 
 
 class Engine:
-    # This GameMap is shared between all instances of Engine.
+    """Handles:
+    - AI for all Actors controlled by the game.
+    - Rendering the game map.
+    """
     game_map: GameMap
 
     def __init__(self, player: Actor):
@@ -23,6 +26,7 @@ class Engine:
         self.player = player
 
     def handle_enemy_turns(self) -> None:
+        """Handle AI for all Actors controlled by the game."""
         for entity in set(self.game_map.actors) - {self.player}:
             if entity.ai:
                 entity.ai.perform()
@@ -39,6 +43,7 @@ class Engine:
         self.game_map.explored |= self.game_map.visible
 
     def render(self, console: Console, context: Context) -> None:
+        """Render the game map and HUD."""
         self.game_map.render(console)
 
         console.print(
