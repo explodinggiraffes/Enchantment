@@ -111,8 +111,7 @@ def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tup
         yield x, y
 
 
-def place_entities(
-    room: RectangularRoom, dungeon: GameMap, maximum_monsters: int) -> None:
+def place_entities(room: RectangularRoom, dungeon: GameMap, maximum_monsters: int) -> None:
     number_of_monsters = random.randint(0, maximum_monsters)
 
     for i in range(number_of_monsters):
