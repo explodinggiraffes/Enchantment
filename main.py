@@ -21,7 +21,6 @@ ROOMS_MAX = 30
 MONSTERS_PER_ROOM_MAX=2
 
 
-# So now that our enemies can chase us down, it’s time to make them do some real damage.
 def main() -> None:
     # Load the font, a 32 by 8 tile font with libtcod's old character layout.
     tileset = tcod.tileset.load_tilesheet(
