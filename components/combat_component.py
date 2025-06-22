@@ -15,8 +15,7 @@ if TYPE_CHECKING:
 class CombatComponent(BaseComponent):
     entity: Actor
 
-    """A Component capable of being fought because it has attributes such as hit points.
-    """
+    """A Component capable of being fought because it has attributes such as hit points."""
     def __init__(self, hp: int, defense: int, power: int):
         self.max_hp = hp
         self._hp = hp
