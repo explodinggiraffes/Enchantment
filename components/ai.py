@@ -13,10 +13,8 @@ if TYPE_CHECKING:
 
 
 class BaseAI(Action, BaseComponent):
-    """TODO: Discuss inheriting from Action and BaseComponent.
-    """
-
-    # FIXME: Rename this attribute?
+    """Parent class to all other AI classes.
+    Performs pathfinding."""
     entity: Actor
 
     def perform(self) -> None:
