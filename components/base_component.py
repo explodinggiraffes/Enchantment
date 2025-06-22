@@ -8,7 +8,8 @@ if TYPE_CHECKING:
 
 
 class BaseComponent:
-    entity: Entity  # Owning entity instance.
+    """A component that wraps its Entity."""
+    entity: Entity
 
     @property
     def engine(self) -> Engine:
