@@ -1,19 +1,20 @@
 from __future__ import annotations
 
-from typing import Iterator, List, Tuple, TYPE_CHECKING
 import random
+from typing import Iterator, List, Tuple, TYPE_CHECKING
 
 import tcod
 
-from game_map import GameMap
 import entity_factories
 import tile_types
+from game_map import GameMap
 
 if TYPE_CHECKING:
     from engine import Engine
 
 
 class RectangularRoom:
+    """A room within the dungeon."""
     def __init__(self, x: int, y: int, width: int, height: int):
         self.x1 = x
         self.y1 = y
@@ -41,7 +42,6 @@ class RectangularRoom:
             and self.y2 >= other.y1
         )
 
-
 def generate_dungeon(
     max_rooms: int,
     room_min_size: int,
@@ -64,7 +64,7 @@ def generate_dungeon(
         x = random.randint(0, dungeon.width - room_width - 1)
         y = random.randint(0, dungeon.height - room_height - 1)
 
-        # "RectangularRoom" class makes rectangles easier to work with
+        # "RectangularRoom" class makes rectangles easier to work with.
         new_room = RectangularRoom(x, y, room_width, room_height)
 
         # Run through the other rooms and see if they intersect with this one.
@@ -85,19 +85,32 @@ def generate_dungeon(
                 dungeon.tiles[x, y] = tile_types.floor
 
         # Place entities -- such as monsters -- into the new room.
-        place_entities(new_room, dungeon, monsters_per_room)
+        spawn_monster(new_room, dungeon, monsters_per_room)
 
         # Finally, append the new room to the list.
         rooms.append(new_room)
 
     return dungeon
 
+def spawn_monster(room: RectangularRoom, dungeon: GameMap, maximum_monsters: int) -> None:
+    """Spawn a monster and place it within the supplied room."""
+    number_of_monsters = random.randint(0, maximum_monsters)
+
+    for _ in range(number_of_monsters):
+        x = random.randint(room.x1 + 1, room.x2 - 1)
+        y = random.randint(room.y1 + 1, room.y2 - 1)
+
+        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
+            if random.random() < 0.8:
+                entity_factories.orc.spawn(dungeon, x, y)
+            else:
+                entity_factories.troll.spawn(dungeon, x, y)
 
 def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tuple[int, int]]:
     """Return an L-shaped tunnel between these two points."""
     x1, y1 = start
     x2, y2 = end
-    if random.random() < 0.5:  # 50% chance.
+    if random.random() < 0.5:  # 50% chance
         # Move horizontally, then vertically.
         corner_x, corner_y = x2, y1
     else:
@@ -109,17 +122,3 @@ def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tup
         yield x, y
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():
         yield x, y
-
-
-def place_entities(room: RectangularRoom, dungeon: GameMap, maximum_monsters: int) -> None:
-    number_of_monsters = random.randint(0, maximum_monsters)
-
-    for i in range(number_of_monsters):
-        x = random.randint(room.x1 + 1, room.x2 - 1)
-        y = random.randint(room.y1 + 1, room.y2 - 1)
-
-        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
-            if random.random() < 0.8:
-                entity_factories.orc.spawn(dungeon, x, y)
-            else:
-                entity_factories.troll.spawn(dungeon, x, y)
