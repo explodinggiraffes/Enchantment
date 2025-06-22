@@ -13,9 +13,9 @@ if TYPE_CHECKING:
 # Note: The tcod tutorial has named this class "Fighter". But we want to reserve that name for Dungeons & Dragons style
 # character classes.
 class CombatComponent(BaseComponent):
+    """A Component capable of being fought because it has attributes such as hit points."""
     entity: Actor
 
-    """A Component capable of being fought because it has attributes such as hit points."""
     def __init__(self, hp: int, defense: int, power: int):
         self.max_hp = hp
         self._hp = hp
