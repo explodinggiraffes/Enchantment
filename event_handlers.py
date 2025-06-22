@@ -65,8 +65,7 @@ class EventHandler(tcod.event.EventDispatch[Action]):
 
 
 class MainGameEventHandler(EventHandler):
-    """Handles events by converting them to a game Action.
-    """
+    """Handles events by converting them to a game Action."""
     def __init__(self, engine: Engine):
         self.engine = engine
 
@@ -98,6 +97,7 @@ class MainGameEventHandler(EventHandler):
         return action
 
 class GameOverEventHandler(EventHandler):
+    """Handles the event generated when the game ends, such as when the player dies."""
     def handle_events(self) -> None:
         for event in tcod.event.wait():
             action = self.dispatch(event)
@@ -108,6 +108,7 @@ class GameOverEventHandler(EventHandler):
             action.perform()
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[Action]:
+        """Called when a keyboard key is pressed or repeated."""
         action: Optional[Action] = None
 
         key = event.sym
@@ -115,5 +116,4 @@ class GameOverEventHandler(EventHandler):
         if key == tcod.event.K_ESCAPE:
             action = GameExitAction(self.engine.player)
 
-        # No valid key was pressed
         return action
