@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
-import copy
-
 import tcod
 
-import entity_factories
+from entity_factories import create_player
 from engine import Engine
 from procgen import generate_dungeon
 
@@ -18,7 +16,7 @@ ROOM_SIZE_MAX = 10
 ROOM_SIZE_MIN = 6
 ROOMS_MAX = 30
 
-MONSTERS_PER_ROOM_MAX=2
+MONSTERS_PER_ROOM_MAX = 2
 
 
 def main() -> None:
@@ -31,11 +29,9 @@ def main() -> None:
     console = tcod.console.Console(WINDOW_WIDTH, WINDOW_HEIGHT, order="F")
 
     # Create the player.
-    # Note: We can’t use player.spawn here, because spawn requires the GameMap, which isn’t created until after we
-    # create the player. <-FIXME?
-    player = copy.deepcopy(entity_factories.player)
+    player = create_player()
 
-    # TODO: Comment + create player outside of main() if possible.
+    # Create the game engine.
     engine = Engine(player=player)
 
     # TODO
