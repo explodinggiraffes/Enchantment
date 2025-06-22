@@ -42,9 +42,9 @@ MOVE_KEYS = {
 }
 
 WAIT_KEYS = {
-    tcod.event.K_PERIOD,
-    tcod.event.K_KP_5,
-    tcod.event.K_CLEAR,
+    tcod.event.KeySym.PERIOD,
+    tcod.event.KeySym.KP_5,
+    tcod.event.KeySym.CLEAR,
 }
 
 
