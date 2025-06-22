@@ -44,7 +44,6 @@ class Engine:
             engine=self
         )
 
-
     def handle_enemy_turns(self) -> None:
         """Handle AI for all Actors controlled by the game."""
         for entity in set(self.game_map.actors) - {self.player}:

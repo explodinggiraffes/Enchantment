@@ -23,7 +23,6 @@ def main() -> None:
 
     # Create the game engine.
     engine = Engine(player=player)
-
     engine.update_fov()
 
     # Create a window based on this console and tileset.
