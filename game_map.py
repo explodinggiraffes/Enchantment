@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 
 
 class GameMap:
+    """A game map made up of rooms that contain entities such as players, enemies, items, etc."""
     def __init__(
         self, engine: Engine, width: int, height: int, entities: Iterable[Entity] = ()):
         self.engine = engine
@@ -81,6 +82,6 @@ class GameMap:
         )
 
         for entity in entities_sorted_for_rendering:
-            # Only print entities that are in the FOV
+            # Only print entities that are in the FOV.
             if self.visible[entity.x, entity.y]:
                 console.print(x=entity.x, y=entity.y, string=entity.char, fg=entity.color)
