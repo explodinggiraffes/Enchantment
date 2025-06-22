@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import copy
-
 from typing import Optional, Tuple, Type, TypeVar, TYPE_CHECKING
 
 from render_order import RenderOrder
@@ -59,7 +58,7 @@ class Entity:
         return clone
 
     def place(self, x: int, y: int, gamemap: Optional[GameMap] = None) -> None:
-        """Place this entEntityity at a new location. Handles moving across GameMaps."""
+        """Place this Entity at a new location. Handles moving across a game maps."""
         self.x = x
         self.y = y
         if gamemap:
