@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import Iterable, Iterator, Optional, TYPE_CHECKING
 
-from tcod.console import Console
 import numpy as np  # type: ignore
+from tcod.console import Console
 
-from entities import Actor
 import tile_types
+from entities import Actor
 
 if TYPE_CHECKING:
     from engine import Engine
