@@ -7,23 +7,43 @@ from tcod.context import Context
 from tcod.map import compute_fov
 
 from event_handlers import MainGameEventHandler
+from procgen import generate_dungeon
 
 if TYPE_CHECKING:
     from entities import Actor
     from event_handlers import EventHandler
     from game_map import GameMap
 
+MAP_WIDTH = 80
+MAP_HEIGHT = 45
+
+ROOM_SIZE_MAX = 10
+ROOM_SIZE_MIN = 6
+ROOMS_MAX = 30
+
+MONSTERS_PER_ROOM_MAX = 2
+
 
 class Engine:
     """Handles:
+    - Creating and rendering the game map.
     - AI for all Actors controlled by the game.
-    - Rendering the game map.
     """
     game_map: GameMap
 
     def __init__(self, player: Actor):
         self.event_handler: EventHandler = MainGameEventHandler(self)
         self.player = player
+        self.game_map = generate_dungeon(
+            max_rooms=ROOMS_MAX,
+            room_min_size=ROOM_SIZE_MIN,
+            room_max_size=ROOM_SIZE_MAX,
+            map_width=MAP_WIDTH,
+            map_height=MAP_HEIGHT,
+            monsters_per_room=MONSTERS_PER_ROOM_MAX,
+            engine=self
+        )
+
 
     def handle_enemy_turns(self) -> None:
         """Handle AI for all Actors controlled by the game."""

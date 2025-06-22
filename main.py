@@ -4,19 +4,9 @@ import tcod
 
 from entity_factories import create_player
 from engine import Engine
-from procgen import generate_dungeon
 
 WINDOW_WIDTH = 80
 WINDOW_HEIGHT = 50
-
-MAP_WIDTH = 80
-MAP_HEIGHT = 45
-
-ROOM_SIZE_MAX = 10
-ROOM_SIZE_MIN = 6
-ROOMS_MAX = 30
-
-MONSTERS_PER_ROOM_MAX = 2
 
 
 def main() -> None:
@@ -34,16 +24,6 @@ def main() -> None:
     # Create the game engine.
     engine = Engine(player=player)
 
-    # TODO
-    engine.game_map = generate_dungeon(
-        max_rooms=ROOMS_MAX,
-        room_min_size=ROOM_SIZE_MIN,
-        room_max_size=ROOM_SIZE_MAX,
-        map_width=MAP_WIDTH,
-        map_height=MAP_HEIGHT,
-        monsters_per_room=MONSTERS_PER_ROOM_MAX,
-        engine=engine
-    )
     engine.update_fov()
 
     # Create a window based on this console and tileset.
