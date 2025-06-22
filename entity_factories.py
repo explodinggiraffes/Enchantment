@@ -1,3 +1,5 @@
+import copy
+
 from components.ai import HostileEnemy
 from components.combat_component import CombatComponent
 from entities import Actor
@@ -26,3 +28,6 @@ troll = Actor(
     ai_cls=HostileEnemy,
     fighter=CombatComponent(hp=16, defense=1, power=4),
 )
+
+def create_player() -> Actor:
+    return copy.deepcopy(player)
