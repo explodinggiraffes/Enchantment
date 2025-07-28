@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 
+from typing import Final
+
 import tcod
 
 from entity_factories import create_player
 from engine import Engine
 
-WINDOW_WIDTH = 80
-WINDOW_HEIGHT = 50
+WINDOW_WIDTH: Final[int] = 80
+WINDOW_HEIGHT: Final[int] = 50
 
 
 def main() -> None:
