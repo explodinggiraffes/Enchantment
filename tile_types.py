@@ -24,7 +24,6 @@ tile_dt = np.dtype(
 # SHROUD represents unexplored, unseen tiles.
 SHROUD = np.array((ord(" "), (255, 255, 255), (0, 0, 0)), dtype=graphic_dt)
 
-
 def new_tile(
     *,
     walkable: int,

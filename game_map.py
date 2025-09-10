@@ -15,8 +15,7 @@ if TYPE_CHECKING:
 
 class GameMap:
     """A game map made up of rooms that contain entities such as players, enemies, items, etc."""
-    def __init__(
-        self, engine: Engine, width: int, height: int, entities: Iterable[Entity] = ()):
+    def __init__(self, engine: Engine, width: int, height: int, entities: Iterable[Entity] = ()):
         self.engine = engine
         self.width = width
         self.height = height
